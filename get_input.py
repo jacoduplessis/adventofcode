@@ -2,19 +2,27 @@ import requests
 import sys
 import os
 
-YEAR = sys.argv[1]
-DAY = sys.argv[2]
+year = sys.argv[1]
+days = sys.argv[2:]
 
-if not all([YEAR, DAY]):
+
+if not all([year, days]):
+    print("Invalid input. Usage: python3 get_input.py <YEAR> <DAYS>")
     sys.exit(1)
 
-input_string = requests.get(
-    f'https://adventofcode.com/{YEAR}/day/{DAY}/input',
-    cookies=dict(session=open('session.txt', 'r').read())
-).text
-
-d = f'{YEAR}/input'
+d = f'{year}/input'
 os.makedirs(d, exist_ok=True)
-with open(os.path.join(d, f'{DAY}.txt'), 'w') as out:
-    out.write(input_string)
+with open('session.txt', 'r') as session_file:
+    session = session_file.read()
+
+s = requests.Session()
+
+for day in days:
+    input_string = s.get(
+        f'https://adventofcode.com/{year}/day/{day}/input',
+        cookies=dict(session=session)
+    ).text
+
+    with open(os.path.join(d, f'{day}.txt'), 'w') as out:
+        out.write(input_string)
 
