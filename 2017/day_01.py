@@ -8,17 +8,9 @@ with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), f'input/{DAY}
 
 def get_captcha(s, halfway=False):
     nums = list(map(int, s))
-    total = 0
     N = len(nums)
     step = int(N / 2) if halfway else 1
-    for i in range(len(nums)):
-        try:
-            if nums[i] == nums[i + step]:
-                total += nums[i]
-        except IndexError:
-            if nums[i] == nums[i + step - N]:
-                total += nums[i]
-    return total
+    return sum([nums[i] for i in range(N) if nums[i] == nums[(i + step) % N]])
 
 
 # part 1
