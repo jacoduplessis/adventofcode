@@ -11,5 +11,5 @@ function getCaptcha(s, halfway=false) {
   return nums.reduce((acc, n, i) => acc + (nums[i] === nums[(i + step) % N] ? nums[i] : 0), 0)
 }
 
-console.log(getCaptcha(input))
-console.log(getCaptcha(input, true))
+console.log("PART 1", getCaptcha(input))
+console.log("PART 2", getCaptcha(input, true))
