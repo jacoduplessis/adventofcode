@@ -48,7 +48,7 @@ print("PART 1", get_distance(int(input_string)))
 
 def part_two(target):
     g = generate_grid_points()
-    n = 100
+    n = 101
     center = int((n - 1) / 2)
     grid = []
     for i in range(n):
