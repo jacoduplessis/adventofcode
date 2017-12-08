@@ -5,42 +5,23 @@ DAY = 8
 with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), f'input/{DAY}.txt'), 'r') as input_file:
     input_string = input_file.read().strip('\n').strip()
 
+from collections import defaultdict
+
 
 def get_max(s, two=False):
-    register = {}
+    register = defaultdict(int)
+
     maxima = []
     for line in s.split('\n'):
         key, op, val, _, left_key, comp, right = line.split()
         val = int(val)
         right = int(right)
-        try:
-            left = int(register[left_key])
-        except KeyError:
-            left = 0
-        if comp == '>':
-            b = left > right
-        elif comp == '<':
-            b = left < right
-        elif comp == '!=':
-            b = left != right
-        elif comp == '==':
-            b = left == right
-        elif comp == '<=':
-            b = left <= right
-        elif comp == '>=':
-            b = left >= right
+        left = int(register.get(left_key, 0))
 
-        if not b:
+        if not eval(f'{left} {comp} {right}'):
             continue
 
-        if key not in register:
-            register[key] = 0
-
-        if op == 'inc':
-            register[key] += val
-        else:
-            register[key] -= val
-
+        register[key] += val if op == 'inc' else (-1 * val)
         maxima.append(max(register.values()))
 
     if two:
