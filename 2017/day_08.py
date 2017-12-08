@@ -9,19 +9,17 @@ from collections import defaultdict
 
 
 def get_max(s, two=False):
+
     register = defaultdict(int)
-
     maxima = []
-    for line in s.split('\n'):
-        key, op, val, _, left_key, comp, right = line.split()
-        val = int(val)
-        right = int(right)
-        left = int(register.get(left_key, 0))
 
-        if not eval(f'{left} {comp} {right}'):
+    for line in s.split('\n'):
+        key, op, val, _, left, comp, right = line.split()
+
+        if not eval(f'{register[left]} {comp} {right}'):
             continue
 
-        register[key] += val if op == 'inc' else (-1 * val)
+        register[key] += int(val) if op == 'inc' else (-1 * int(val))
         maxima.append(max(register.values()))
 
     if two:
