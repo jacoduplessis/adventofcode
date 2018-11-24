@@ -1,6 +1,7 @@
-import requests
 import sys
 import os
+import pathlib
+from urllib.request import urlopen, Request
 
 year = sys.argv[1]
 days = sys.argv[2:]
@@ -10,19 +11,19 @@ if not all([year, days]):
     print("Invalid input. Usage: python3 get_input.py <YEAR> <DAYS>")
     sys.exit(1)
 
-d = f'{year}/input'
-os.makedirs(d, exist_ok=True)
-with open('session.txt', 'r') as session_file:
-    session = session_file.read()
-
-s = requests.Session()
+os.makedirs(year, exist_ok=True)
+session = pathlib.Path('session.txt').read_text()
 
 for day in days:
-    input_string = s.get(
-        f'https://adventofcode.com/{year}/day/{day}/input',
-        cookies=dict(session=session)
-    ).text
 
-    with open(os.path.join(d, f'{day}.txt'), 'w') as out:
-        out.write(input_string)
+    req = Request(f'https://adventofcode.com/{year}/day/{day}/input', headers={
+        'Cookie':f'session={session}'
+    })
+
+    resp = urlopen(req).read()
+
+    to = str(day).zfill(2)
+
+    with open(os.path.join(year, f'{to}.txt'), 'wb') as out:
+        out.write(resp)
 
