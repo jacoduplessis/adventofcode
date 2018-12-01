@@ -3,3 +3,4 @@ input
 venv
 .idea
 2016
+*.txt
