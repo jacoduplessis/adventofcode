@@ -25,7 +25,6 @@ def part_one(input_):
 
 def part_two(input_):
     N = len(input_)
-    matches = None
     for i in range(N):
         for j in range(N):
             if i == j:
@@ -36,14 +35,12 @@ def part_two(input_):
                     diffs += 1
 
             if diffs == 1:
-                matches = i, j
-    match_chars = []
-    i, j = matches
-    for k in range(len(input_[i])):
-        if input_[i][k] == input_[j][k]:
-            match_chars.append(input_[i][k])
+                match_chars = []
+                for k in range(len(input_[i])):
+                    if input_[i][k] == input_[j][k]:
+                        match_chars.append(input_[i][k])
 
-    return "".join(match_chars)
+                return "".join(match_chars)
 
 
 if __name__ == '__main__':
