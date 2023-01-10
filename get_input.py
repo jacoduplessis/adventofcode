@@ -11,7 +11,7 @@ if not all([year, days]):
     sys.exit(1)
 
 os.makedirs(year, exist_ok=True)
-session = pathlib.Path('session.txt').read_text()
+session = pathlib.Path('session.txt').read_text().strip()
 
 for day in days:
     req = Request(f'https://adventofcode.com/{year}/day/{day}/input', headers={
